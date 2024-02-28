@@ -1,0 +1,80 @@
+.contributions {
+  text-align: center;
+  margin: 20px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+}
+
+.contributors-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+}
+
+.contributor-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  width: 240px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px; /* Added for rounded corners */
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+  
+}
+
+.contributor-card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.photo-container img {
+  border-radius: 50%; /* Keeps the circular frame */
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  margin: auto;
+}
+
+.designation {
+  font-style: italic;
+  margin: 10px 0;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+}
+
+/* New Styles for Project Collaboration Section */
+.project-collaboration-section {
+  margin-top: 40px; /* Adds space between the cards and the collaboration section */
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+}
+
+.project-collaboration-section h2 {
+  margin-bottom: 15px; /* Space between the heading and paragraph */
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+}
+
+
+
+/* Styles for the Project Collaboration card */
+.collaboration-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin-top: 20px; /* Space above the collaboration card */
+  padding: 20px; /* Inner padding for the content */
+  border-radius: 10px; /* Rounded corners like other cards */
+  background-color: #242424; /* Matching the background color */
+  color: #C9D1D9; /* Text color */
+  text-align: center; /* Center the text */
+  margin-bottom: 20px; /* Adequate gap before the footer */
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+}
+
+/* New class for adding a gap before the footer */
+.footer-gap {
+  height: 40px; /* Adjust the height as needed to create space before the footer */
+}

@@ -1,0 +1,122 @@
+
+.codeground-container {
+  display: flex;
+  /* flex-direction: column; /* Use column layout for vertical alignment */
+  /* max-width: 1000px; /* Maximum width so it doesn't stretch too wide on larger screens */
+
+  height: calc(100vh - 80px); /* Provide more margin from the top and bottom */
+
+  margin: 10px; /* Center the container on the page */
+  padding: 15px; /* Inner padding */
+  background-color: #0D1117; /* Dark theme background */
+  color: #C9D1D9; /* Light text color for readability */
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+  /*font-family: 'Roboto', sans-serif; /* Modern font */
+  border: 1px solid #30363D; /* Slight border for visibility */
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+  overflow: hidden; /* Ensures no internal overflow is visible */
+}
+
+.toggle-pane {
+  position: absolute;
+  z-index: 1000;
+  left: 20px;
+  top: 20px;
+  background-color: #58a6ff; /* Button color from screenshot */
+  color: #0D1117; /* Dark text color for contrast */
+  border: none;
+  border-radius: 50%; /* Circular button */
+  width: 35px; /* Size of the button */
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px; /* Adjust the font size as needed */
+  cursor: pointer;
+}
+
+
+/* Adjust the history pane so it doesn't affect the overall container size */
+.history-pane {
+  background-color: #161B22; /* Slightly lighter than the container background */
+  position: absolute; /* Take out of the flow to not affect the size of the main content */
+  left: 0;
+  top: 75px; /* Start below the top margin of the container */
+  position: sticky;
+  bottom: 0px; /* End above the bottom margin of the container */
+  width: 250px; /* Sidebar width */
+  transform: translateX(-100%); /* Hidden initially */
+  transition: transform 0.3s ease-in-out;
+  overflow-y: auto; /* Scrollable content */
+  border-right: 2px solid #30363D; /* Separator from the main content */
+  border-radius: 10px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+}
+
+
+.history-pane.open {
+  transform: translateX(0); /* Show sidebar */
+}
+
+.history-logo {
+  display: none; /* Hide the 'H' when sidebar is closed */
+}
+
+.history-pane.open .history-logo {
+  display: block; /* Show the 'Recents / History' when sidebar is open */
+  color: #C9D1D9; /* Text color */
+  padding: 20px; /* Padding around the text */
+  border-bottom: 1px solid #30363D; /* Separator line */
+}
+
+/* Adjust the chat interface so that the input is always visible */
+.chat-interface {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* This will push the messages container and input container apart */
+  padding: 20px;
+  max-height: calc(100vh - 100px); /* This will ensure that the chat interface is always within view */
+}
+
+/* Ensure the messages container does not push the input area out of view */
+.messages-container {
+  overflow-y: auto;
+  margin-bottom: 20px;
+  flex-grow: 1; /* Allow it to grow but not to push the input out of view */
+  padding: 10px;
+  background-color: #0D1117;
+  border-radius: 10px;
+}
+
+.input-container {
+  display: flex;
+  /* align-items: center; */
+  flex-shrink: 0; /* to prevent the input from shrinking. */
+}
+
+.chat-input {
+  flex-grow: 1;
+  padding: 12px 20px;
+  background-color: #0D1117;
+  border: 2px solid #30363D; /* Subtle border */
+  color: #C9D1D9;
+  border-radius: 6px 0 0 6px; /* Rounded corners on the left side */
+  margin-right: -1px; /* Ensures seamless connection with the send button */
+}
+
+.send-button {
+  background-color: #238636; /* Green color for send button */
+  color: #FFFFFF;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 0 6px 6px 0; /* Rounded corners on the right side */
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #2EA043; /* Slightly lighter green on hover */
+}

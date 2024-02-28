@@ -5,40 +5,40 @@ import CardItem from './CardItem';
 function Cards() {
   return (
     <div className='cards'>
-      <h1>Check out these EPIC Destinations!</h1>
+      <h1>Check out these valuable and amazing Blogs!</h1>
       <div className='cards__container'>
         <div className='cards__wrapper'>
           <ul className='cards__items'>
             <CardItem
-              src='images/img-9.jpg'
-              text='Explore the hidden waterfall deep inside the Amazon Jungle'
-              label='Adventure'
+              src='images/colab.png'
+              text='Explore the amazing features of Colab Notebook.'
+              label='Info/Tutorial'
               path='/services'
             />
             <CardItem
-              src='images/img-2.jpg'
-              text='Travel through the Islands of Bali in a Private Cruise'
-              label='Luxury'
+              src='images/softwaredeveloper.png'
+              text='What is the best way to learn to code for a developer?'
+              label='Info/Tips'
               path='/services'
             />
           </ul>
           <ul className='cards__items'>
             <CardItem
-              src='images/img-3.jpg'
-              text='Set Sail in the Atlantic Ocean visiting Uncharted Waters'
-              label='Mystery'
+              src='images/facebookmeta.png'
+              text='The analysis of Facebook and Meta coding methods.'
+              label='Analysis/Research'
               path='/services'
             />
             <CardItem
-              src='images/img-4.jpg'
-              text='Experience Football on Top of the Himilayan Mountains'
-              label='Adventure'
+              src='images/llms.jpeg'
+              text='The next big thing: LLMs'
+              label='Research'
               path='/products'
             />
             <CardItem
-              src='images/img-8.jpg'
-              text='Ride through the Sahara Desert on a guided camel tour'
-              label='Adrenaline'
+              src='images/impostersyndrome.png'
+              text='Suffering from Imposter Syndrome: Here is what a dev should know!'
+              label='Tips/Advice'
               path='/sign-up'
             />
           </ul>

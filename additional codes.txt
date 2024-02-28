@@ -1,0 +1,1187 @@
+import React, { useState } from 'react';
+import '../../App.css';
+import './CodeGround.css'; // Importing the custom CSS for CodeGround
+
+export default function CodeGround() {
+  const [isPaneOpen, setIsPaneOpen] = useState(true);
+  const [message, setMessage] = useState(""); // State to hold the typed message
+
+  // Function to toggle the side pane
+  const togglePane = () => {
+    setIsPaneOpen(!isPaneOpen);
+  };
+
+  // Update message state on input change
+  const handleMessageChange = (event) => {
+    setMessage(event.target.value);
+  };
+
+  // Placeholder function for sending the message
+  const sendMessage = () => {
+    console.log("Sending message:", message);
+    // Here i would typically handle the message sending logic,
+    // such as updating state, sending to an API, etc.
+    setMessage(""); // Clear the input field after sending
+  };
+
+  return (
+    <div className="codeground-container">
+      <button className="toggle-pane" onClick={togglePane}>
+        {isPaneOpen ? '×' : '≡'} {/* Use symbols here */}
+      </button>
+      <div className={`history-pane ${isPaneOpen ? 'open' : ''}`}>
+        <div className="history-logo">{isPaneOpen ? 'Recent history goes here' : 'H'}</div>
+        {/* Expanded history content goes here */}
+      </div>
+      <div className="chat-interface">
+        <div className="messages-container">
+          <p>Welcome to CodeGround!</p>
+          {/* Chat messages will be dynamically added here */}
+        </div>
+        <div className="input-container"> {/* Add this wrapper for input and button */}
+          <input
+            type="text"
+            placeholder="Type your message..."
+            className="chat-input"
+            value={message} // Controlled component
+            onChange={handleMessageChange}
+          />
+          <button className="send-button" onClick={sendMessage}>Send</button> {/* Send button */}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+codeground.css
+
+.codeground-container {
+  display: flex;
+  height: calc(100vh - 60px); /* Adjust for navbar height */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  margin-top: 85px; /* Ensure it starts below the navbar */
+}
+
+.toggle-pane {
+  position: fixed;
+  top: 70px;
+  left: 20px;
+  z-index: 1000;
+  font-size: 24px; /* Adjust for visibility */
+}
+
+.history-pane {
+  width: 0;
+  overflow: hidden;
+  background: #f1f1f1;
+  transition: width 0.5s ease;
+  padding: 20px;
+  height: calc(100vh - 80px); /* Adjust for navbar height */
+}
+
+.history-pane.open {
+  width: 250px; /* Width of the open pane */
+}
+
+.history-logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.chat-interface {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  height: calc(100% - 40px); /* Adjust for padding */
+}
+
+.messages-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+  background: #fff;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+
+.input-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px; /* Adjusted for seamless integration with the send button */
+  width: calc(100% - 52px); /* Adjust width to accommodate send button */
+  margin-right: -1px; /* Align border with send button */
+}
+
+.send-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  background-color: #007bff;
+  color: white;
+  border-radius: 0 5px 5px 0; /* Rounded corners on the right */
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #0056b3; /* Darker shade on hover for visual feedback */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+newer modified
+
+
+import React, { useState } from 'react';
+import '../../App.css';
+import './CodeGround.css'; // Assuming you have this path for your CSS
+
+export default function CodeGround() {
+  const [isPaneOpen, setIsPaneOpen] = useState(true);
+  const [message, setMessage] = useState("");
+
+  
+  // Function to toggle the side pane
+  const togglePane = () => {
+    setIsPaneOpen(!isPaneOpen);
+  };
+
+  // Update message state on input change
+  const handleMessageChange = (event) => {
+    setMessage(event.target.value);
+  };
+  // Placeholder function for sending the message
+  const sendMessage = () => {
+    console.log("Sending message:", message);
+    // Here i would typically handle the message sending logic,
+    // such as updating state, sending to an API, etc.
+    setMessage("");
+  };
+
+  return (
+    <div className="codeground-container">
+      <button className="toggle-pane" onClick={togglePane}>
+        {isPaneOpen ? '×' : '≡'}
+      </button>
+      <div className={`history-pane ${isPaneOpen ? 'open' : ''}`}>
+        <div className="history-content">{isPaneOpen ? 'Recent history goes here' : ''}</div>
+      </div>
+      <div className="chat-interface">
+        <div className="messages-container">
+          <p>Welcome to CodeGround!</p>
+        </div>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="Type your message..."
+            className="chat-input"
+            value={message}
+            onChange={handleMessageChange}
+          />
+          <button className="send-button" onClick={sendMessage}>Send</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+Proper UI only with navigation mei, cross aauxa yes margin
+
+
+
+
+.codeground-container {
+  display: flex;
+  height: calc(100vh - 60px); /* Adjust for navbar height */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  font-family: 'Roboto', sans-serif; /* Use a modern font */
+  background: #f9f9f9; /* Soft background color */
+  margin-top: 20px; /* Adjust spacing */
+}
+
+.toggle-pane {
+  position: absolute;
+  top: 15px; /* Adjust for alignment */
+  z-index: 1000;
+  font-size: 24px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: #333; /* Neutral color */
+}
+
+.history-pane {
+  width: 250px; /* Default width */
+  background: #fff;
+  transition: transform 0.3s ease;
+  transform: translateX(-100%);
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  padding: 20px;
+  height: 100%;
+}
+
+.history-pane.open {
+  transform: translateX(0); /* Slide in */
+}
+
+.history-content {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.history-pane.open .history-content {
+  opacity: 1; /* Fade in content */
+}
+
+.chat-interface {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: #fff; /* Background for chat */
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+  margin-left: 20px; /* Space from history pane */
+  padding: 20px;
+}
+
+.messages-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  background: #f0f0f0; /* Light background for contrast */
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px; /* Rounded corners */
+}
+
+.input-container {
+  display: flex;
+}
+
+.chat-input, .send-button {
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  font-size: 16px;
+}
+
+.chat-input {
+  flex-grow: 1;
+  border-radius: 8px 0 0 8px; /* Rounded corners on the left */
+  margin-right: -1px; /* Align with send button */
+}
+
+.send-button {
+  background-color: #007bff;
+  color: white;
+  border-radius: 0 8px 8px 0; /* Rounded corners on the right */
+  cursor: pointer;
+  border-left: none; /* Seamless connection with input */
+}
+
+.send-button:hover {
+  background-color: #0056b3;
+}
+
+
+clean ui but recent history ani coding pane overlap xa yesma
+
+.codeground-container {
+  display: flex;
+  height: calc(100vh - 60px); /* Adjust for navbar height */
+  font-family: 'Roboto', sans-serif; /* Modern, clean font */
+  background: #FAFAFA; /* Light, neutral background for a fresh look */
+  margin-top: 60px; /* Ensure it starts below the navbar */
+  overflow: hidden; /* Prevents content from overflowing */
+}
+
+.toggle-pane {
+  position: fixed;
+  top: 25px; /* Adjusted for better alignment with the navbar */
+  left: 20px; /* Maintain consistent spacing */
+  z-index: 1050; /* Above other elements */
+  font-size: 24px; /* Clear, visible icon size */
+  cursor: pointer;
+  background-color: #007BFF; /* Eye-catching button color */
+  color: #FFFFFF; /* Contrast for visibility */
+  border: none;
+  padding: 10px;
+  border-radius: 50%; /* Circular button */
+}
+
+.history-pane {
+  position: fixed;
+  left: 0;
+  top: 60px; /* Starts below the navbar */
+  bottom: 0;
+  width: 250px; /* Adequate width for history content */
+  background: #FFFFFF; /* Clean, simple background */
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 4px 0 10px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+  padding: 20px;
+  overflow-y: auto; /* Allows scrolling */
+}
+
+.history-pane.open {
+  transform: translateX(0); /* Slide in effect */
+}
+
+.history-logo {
+  font-weight: bold;
+  margin-bottom: 20px; /* Space before the content */
+  text-align: center; /* Centers the logo or text */
+}
+
+.chat-interface {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px; /* Separation from the history pane */
+  padding: 20px;
+  background: #FFFFFF; /* Consistent with the overall design */
+}
+
+.messages-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  background: #EFEFEF; /* Slightly off-white for contrast */
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 10px; /* Soft, modern curves */
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.chat-input {
+  flex-grow: 1;
+  border: 2px solid #007BFF; /* Accent color */
+  border-right: none; /* Smooth transition to the send button */
+  padding: 10px 15px;
+  font-size: 16px;
+  border-radius: 8px 0 0 8px; /* Rounded corners on the left */
+  outline: none; /* Removes the default focus outline */
+}
+
+.send-button {
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #007BFF; /* Matching the toggle pane */
+  color: #FFFFFF;
+  border: 2px solid #007BFF; /* Ensures visual coherence */
+  border-radius: 0 8px 8px 0; /* Rounded corners on the right */
+  cursor: pointer;
+  transition: background-color 0.2s; /* Smooth transition for hover effect */
+}
+
+.send-button:hover {
+  background-color: #0056b3; /* Slightly darker on hover */
+}
+
+
+
+
+
+addditional code container code: was working
+
+.codeground-container {
+  display: flex;
+  height: calc(100vh - 60px); /* Adjust for navbar height */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  font-family: 'Roboto', sans-serif; /* Use a modern font */
+  background: #f9f9f9; /* Soft background color */
+  margin-top: 20px; /* Adjust spacing */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.codeground-container {
+  display: flex;
+  height: calc(100vh - 60px); /* Adjust for navbar height */
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  font-family: 'Roboto', sans-serif; /* Use a modern font */
+  background: #f9f9f9; /* Soft background color */
+  margin-top: 20px; /* Adjust spacing */
+}
+
+
+.toggle-pane {
+  position: absolute;
+  top: 15px; /* Adjust for alignment */
+  z-index: 1000;
+  font-size: 24px;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: #333; /* Neutral color */
+}
+
+.history-pane {
+  width: 250px; /* Default width */
+  background: #fff;
+  transition: transform 0.3s ease;
+  transform: translateX(-100%);
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  padding: 20px;
+  height: 100%;
+}
+
+.history-pane.open {
+  transform: translateX(0); /* Slide in */
+}
+
+.history-content {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.history-pane.open .history-content {
+  opacity: 1; /* Fade in content */
+}
+
+.chat-interface {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: #fff; /* Background for chat */
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+  margin-left: 20px; /* Space from history pane */
+  padding: 20px;
+}
+
+.messages-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  background: #f0f0f0; /* Light background for contrast */
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px; /* Rounded corners */
+}
+
+.input-container {
+  display: flex;
+}
+
+.chat-input, .send-button {
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  font-size: 16px;
+}
+
+.chat-input {
+  flex-grow: 1;
+  border-radius: 8px 0 0 8px; /* Rounded corners on the left */
+  margin-right: -1px; /* Align with send button */
+}
+
+.send-button {
+  background-color: #007bff;
+  color: white;
+  border-radius: 0 8px 8px 0; /* Rounded corners on the right */
+  cursor: pointer;
+  border-left: none; /* Seamless connection with input */
+}
+
+.send-button:hover {
+  background-color: #0056b3;
+}
+
+
+
+
+black but properly chalne UI xa yo: ho first wala
+
+.codeground-container {
+  display: flex;
+  height: 100vh; /* Full height */
+  background-color: #0D1117; /* Dark theme background */
+  color: #C9D1D9; /* Light text color for readability */
+  font-family: 'Roboto', sans-serif; /* Modern font */
+  align-items: stretch; /* Align children full height */
+}
+
+.toggle-pane {
+  position: absolute;
+  z-index: 1000;
+  left: 20px;
+  top: 20px;
+  background-color: #58a6ff; /* Button color from screenshot */
+  color: #0D1117; /* Dark text color for contrast */
+  border: none;
+  border-radius: 50%; /* Circular button */
+  width: 35px; /* Size of the button */
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px; /* Adjust the font size as needed */
+  cursor: pointer;
+}
+
+.history-pane {
+  background-color: #161B22; /* Slightly lighter than the container background */
+  width: 250px; /* Sidebar width */
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%); /* Hidden initially */
+  overflow-y: auto; /* Scrollable content */
+}
+
+.history-pane.open {
+  transform: translateX(0); /* Show sidebar */
+}
+
+.history-logo {
+  display: none; /* Hide the 'H' when sidebar is closed */
+}
+
+.history-pane.open .history-logo {
+  display: block; /* Show the 'Recents / History' when sidebar is open */
+  color: #C9D1D9; /* Text color */
+  padding: 20px; /* Padding around the text */
+  border-bottom: 1px solid #30363D; /* Separator line */
+}
+
+.chat-interface {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  overflow: hidden; /* Prevents scrolling of the entire pane */
+}
+
+.messages-container {
+  flex-grow: 1;
+  overflow-y: auto; /* Allows scrolling within the message container */
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #0D1117; /* Dark background for messages */
+  border-radius: 10px; /* Rounded corners */
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.chat-input {
+  flex-grow: 1;
+  padding: 12px 20px;
+  background-color: #0D1117;
+  border: 2px solid #30363D; /* Subtle border */
+  color: #C9D1D9;
+  border-radius: 6px 0 0 6px; /* Rounded corners on the left side */
+  margin-right: -1px; /* Ensures seamless connection with the send button */
+}
+
+.send-button {
+  background-color: #238636; /* Green color for send button */
+  color: #FFFFFF;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 0 6px 6px 0; /* Rounded corners on the right side */
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #2EA043; /* Slightly lighter green on hover */
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+black ma ui xa, ani side ma circular bar bhako, malai pasand aako UI na chalaune
+
+
+.codeground-container {
+  display: flex;
+  height: calc(100vh - 40px); /* Reduce the height slightly to ensure the container fits within the viewport */
+  margin: 20px; /* Add margin to center the container */
+  padding: 10px; /* Padding inside the container */
+  background-color: #0D1117;
+  color: #C9D1D9;
+  font-family: 'Roboto', sans-serif;
+  border: 1px solid #30363D; /* Slight border for visibility */
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+  overflow: hidden; /* Ensures no internal overflow is visible */
+}
+
+.toggle-pane {
+  position: absolute;
+  z-index: 1000;
+  left: 20px;
+  top: 20px;
+  background-color: #58a6ff; /* Button color from screenshot */
+  color: #0D1117; /* Dark text color for contrast */
+  border: none;
+  border-radius: 50%; /* Circular button */
+  width: 35px; /* Size of the button */
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px; /* Adjust the font size as needed */
+  cursor: pointer;
+}
+
+.history-pane {
+  background-color: #161B22; /* Slightly lighter than the container background */
+  width: 250px; /* Sidebar width */
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%); /* Hidden initially */
+  overflow-y: auto; /* Scrollable content */
+}
+
+.history-pane.open {
+  transform: translateX(0); /* Show sidebar */
+}
+
+.history-logo {
+  display: none; /* Hide the 'H' when sidebar is closed */
+}
+
+.history-pane.open .history-logo {
+  display: block; /* Show the 'Recents / History' when sidebar is open */
+  color: #C9D1D9; /* Text color */
+  padding: 20px; /* Padding around the text */
+  border-bottom: 1px solid #30363D; /* Separator line */
+}
+
+/* Adjust the chat interface so that the input is always visible */
+.chat-interface {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* This will push the messages container and input container apart */
+  padding: 20px;
+  max-height: calc(100vh - 100px); /* This will ensure that the chat interface is always within view */
+}
+
+/* Ensure the messages container does not push the input area out of view */
+.messages-container {
+  overflow-y: auto;
+  margin-bottom: 20px;
+  flex-grow: 1; /* Allow it to grow but not to push the input out of view */
+  padding: 10px;
+  background-color: #0D1117;
+  border-radius: 10px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0; /* to prevent the input from shrinking. */
+}
+
+.chat-input {
+  flex-grow: 1;
+  padding: 12px 20px;
+  background-color: #0D1117;
+  border: 2px solid #30363D; /* Subtle border */
+  color: #C9D1D9;
+  border-radius: 6px 0 0 6px; /* Rounded corners on the left side */
+  margin-right: -1px; /* Ensures seamless connection with the send button */
+}
+
+.send-button {
+  background-color: #238636; /* Green color for send button */
+  color: #FFFFFF;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 0 6px 6px 0; /* Rounded corners on the right side */
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #2EA043; /* Slightly lighter green on hover */
+}
+
+
+
+
+
+
+--------------------------------------------------------------
+same aghi jasto, codeground size smaller ra fixed bhako but history pane blank wala bhako :
+
+.codeground-container {
+  display: flex;
+  flex-direction: column; /* Use column layout for vertical alignment */
+  max-width: 960px; /* Maximum width so it doesn't stretch too wide on larger screens */
+  height: calc(100vh - 80px); /* Provide more margin from the top and bottom */
+  margin: 40px auto; /* Center the container on the page */
+  padding: 20px; /* Inner padding */
+  background-color: #0D1117; /* Dark theme background */
+  color: #C9D1D9; /* Light text color for readability */
+  font-family: 'Roboto', sans-serif; /* Modern font */
+  border: 1px solid #30363D; /* Slight border for visibility */
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+  overflow: hidden; /* Ensures no internal overflow is visible */
+}
+
+.toggle-pane {
+  position: absolute;
+  z-index: 1000;
+  left: 20px;
+  top: 20px;
+  background-color: #58a6ff; /* Button color from screenshot */
+  color: #0D1117; /* Dark text color for contrast */
+  border: none;
+  border-radius: 50%; /* Circular button */
+  width: 35px; /* Size of the button */
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px; /* Adjust the font size as needed */
+  cursor: pointer;
+}
+
+/* Adjust the history pane so it doesn't affect the overall container size */
+.history-pane {
+  position: absolute; /* Take out of the flow to not affect the size of the main content */
+  left: 0;
+  top: 40px; /* Start below the top margin of the container */
+  bottom: 40px; /* End above the bottom margin of the container */
+  width: 250px; /* Sidebar width */
+  transform: translateX(-100%); /* Hidden initially */
+  transition: transform 0.3s ease-in-out;
+  overflow-y: auto; /* Scrollable content */
+  border-right: 1px solid #30363D; /* Separator from the main content */
+}
+
+.history-pane.open {
+  transform: translateX(0); /* Show sidebar */
+}
+
+.history-logo {
+  display: none; /* Hide the 'H' when sidebar is closed */
+}
+
+.history-pane.open .history-logo {
+  display: block; /* Show the 'Recents / History' when sidebar is open */
+  color: #C9D1D9; /* Text color */
+  padding: 20px; /* Padding around the text */
+  border-bottom: 1px solid #30363D; /* Separator line */
+}
+
+
+/* Adjust the chat interface so that the input is always visible */
+.chat-interface {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* This will push the messages container and input container apart */
+  padding: 20px;
+  max-height: calc(100vh - 100px); /* This will ensure that the chat interface is always within view */
+}
+
+/* Ensure the messages container does not push the input area out of view */
+.messages-container {
+  overflow-y: auto;
+  margin-bottom: 20px;
+  flex-grow: 1; /* Allow it to grow but not to push the input out of view */
+  padding: 10px;
+  background-color: #0D1117;
+  border-radius: 10px;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  position: sticky;
+  bottom: 0;
+  /* flex-shrink: 0;  to prevent the input from shrinking. */
+}
+
+.chat-input {
+  flex-grow: 1;
+  padding: 12px 20px;
+  background-color: #0D1117;
+  border: 2px solid #30363D; /* Subtle border */
+  color: #C9D1D9;
+  border-radius: 6px 0 0 6px; /* Rounded corners on the left side */
+  margin-right: -1px; /* Ensures seamless connection with the send button */
+}
+
+.send-button {
+  background-color: #238636; /* Green color for send button */
+  color: #FFFFFF;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 0 6px 6px 0; /* Rounded corners on the right side */
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #2EA043; /* Slightly lighter green on hover */
+}
+
+
+
+--------------------------------------------------------------------
+sab theek xa, but side bar matra overlap garxa
+
+.codeground-container {
+  display: flex;
+  /* flex-direction: column; /* Use column layout for vertical alignment */
+  /* max-width: 1000px; /* Maximum width so it doesn't stretch too wide on larger screens */
+  height: calc(100vh - 80px); /* Provide more margin from the top and bottom */
+
+  margin: 20px; /* Center the container on the page */
+  padding: 10px; /* Inner padding */
+  background-color: #0D1117; /* Dark theme background */
+  color: #C9D1D9; /* Light text color for readability */
+  font-family: 'Roboto', sans-serif; /* Modern font */
+  border: 1px solid #30363D; /* Slight border for visibility */
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+  overflow: hidden; /* Ensures no internal overflow is visible */
+}
+
+.toggle-pane {
+  position: absolute;
+  z-index: 1000;
+  left: 20px;
+  top: 20px;
+  background-color: #58a6ff; /* Button color from screenshot */
+  color: #0D1117; /* Dark text color for contrast */
+  border: none;
+  border-radius: 50%; /* Circular button */
+  width: 35px; /* Size of the button */
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px; /* Adjust the font size as needed */
+  cursor: pointer;
+}
+
+
+
+
+/* Adjust the history pane so it doesn't affect the overall container size */
+.history-pane {
+  background-color: #161B22; /* Slightly lighter than the container background */
+  position: absolute; /* Take out of the flow to not affect the size of the main content */
+  left: 0;
+  top: 75px; /* Start below the top margin of the container */
+  bottom: 0px; /* End above the bottom margin of the container */
+  width: 250px; /* Sidebar width */
+  transform: translateX(-100%); /* Hidden initially */
+  transition: transform 0.3s ease-in-out;
+  overflow-y: auto; /* Scrollable content */
+  border-right: 1px solid #30363D; /* Separator from the main content */
+}
+
+
+.history-pane.open {
+  transform: translateX(0); /* Show sidebar */
+}
+
+.history-logo {
+  display: none; /* Hide the 'H' when sidebar is closed */
+}
+
+.history-pane.open .history-logo {
+  display: block; /* Show the 'Recents / History' when sidebar is open */
+  color: #C9D1D9; /* Text color */
+  padding: 20px; /* Padding around the text */
+  border-bottom: 1px solid #30363D; /* Separator line */
+}
+
+/* Adjust the chat interface so that the input is always visible */
+.chat-interface {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* This will push the messages container and input container apart */
+  padding: 20px;
+  max-height: calc(100vh - 100px); /* This will ensure that the chat interface is always within view */
+}
+
+/* Ensure the messages container does not push the input area out of view */
+.messages-container {
+  overflow-y: auto;
+  margin-bottom: 20px;
+  flex-grow: 1; /* Allow it to grow but not to push the input out of view */
+  padding: 10px;
+  background-color: #0D1117;
+  border-radius: 10px;
+}
+
+.input-container {
+  display: flex;
+  /* align-items: center; */
+  flex-shrink: 0; /* to prevent the input from shrinking. */
+}
+
+.chat-input {
+  flex-grow: 1;
+  padding: 12px 20px;
+  background-color: #0D1117;
+  border: 2px solid #30363D; /* Subtle border */
+  color: #C9D1D9;
+  border-radius: 6px 0 0 6px; /* Rounded corners on the left side */
+  margin-right: -1px; /* Ensures seamless connection with the send button */
+}
+
+.send-button {
+  background-color: #238636; /* Green color for send button */
+  color: #FFFFFF;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 0 6px 6px 0; /* Rounded corners on the right side */
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #2EA043; /* Slightly lighter green on hover */
+}
+
+
+
+
+
+--------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------
+yo code playground ko final css xa, yo chalxa, issues haru fixed xa. don't touch it. this is right wala:
+
+
+.codeground-container {
+  display: flex;
+  /* flex-direction: column; /* Use column layout for vertical alignment */
+  /* max-width: 1000px; /* Maximum width so it doesn't stretch too wide on larger screens */
+
+  height: calc(100vh - 80px); /* Provide more margin from the top and bottom */
+
+  margin: 10px; /* Center the container on the page */
+  padding: 25px; /* Inner padding */
+  background-color: #0D1117; /* Dark theme background */
+  color: #C9D1D9; /* Light text color for readability */
+  font-family: 'Roboto', sans-serif; /* Modern font */
+  border: 1px solid #30363D; /* Slight border for visibility */
+  border-radius: 10px; /* Rounded corners for the container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+  overflow: hidden; /* Ensures no internal overflow is visible */
+}
+
+.toggle-pane {
+  position: absolute;
+  z-index: 1000;
+  left: 20px;
+  top: 20px;
+  background-color: #58a6ff; /* Button color from screenshot */
+  color: #0D1117; /* Dark text color for contrast */
+  border: none;
+  border-radius: 50%; /* Circular button */
+  width: 35px; /* Size of the button */
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px; /* Adjust the font size as needed */
+  cursor: pointer;
+}
+
+
+
+
+/* Adjust the history pane so it doesn't affect the overall container size */
+.history-pane {
+  background-color: #161B22; /* Slightly lighter than the container background */
+  position: absolute; /* Take out of the flow to not affect the size of the main content */
+  left: 0;
+  top: 75px; /* Start below the top margin of the container */
+  position: sticky;
+  bottom: 0px; /* End above the bottom margin of the container */
+  width: 250px; /* Sidebar width */
+  transform: translateX(-100%); /* Hidden initially */
+  transition: transform 0.3s ease-in-out;
+  overflow-y: auto; /* Scrollable content */
+  border-right: 1px solid #30363D; /* Separator from the main content */
+  border-radius: 10px;
+}
+
+
+.history-pane.open {
+  transform: translateX(0); /* Show sidebar */
+}
+
+.history-logo {
+  display: none; /* Hide the 'H' when sidebar is closed */
+}
+
+.history-pane.open .history-logo {
+  display: block; /* Show the 'Recents / History' when sidebar is open */
+  color: #C9D1D9; /* Text color */
+  padding: 20px; /* Padding around the text */
+  border-bottom: 1px solid #30363D; /* Separator line */
+}
+
+/* Adjust the chat interface so that the input is always visible */
+.chat-interface {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* This will push the messages container and input container apart */
+  padding: 20px;
+  max-height: calc(100vh - 100px); /* This will ensure that the chat interface is always within view */
+}
+
+/* Ensure the messages container does not push the input area out of view */
+.messages-container {
+  overflow-y: auto;
+  margin-bottom: 20px;
+  flex-grow: 1; /* Allow it to grow but not to push the input out of view */
+  padding: 10px;
+  background-color: #0D1117;
+  border-radius: 10px;
+}
+
+.input-container {
+  display: flex;
+  /* align-items: center; */
+  flex-shrink: 0; /* to prevent the input from shrinking. */
+}
+
+.chat-input {
+  flex-grow: 1;
+  padding: 12px 20px;
+  background-color: #0D1117;
+  border: 2px solid #30363D; /* Subtle border */
+  color: #C9D1D9;
+  border-radius: 6px 0 0 6px; /* Rounded corners on the left side */
+  margin-right: -1px; /* Ensures seamless connection with the send button */
+}
+
+.send-button {
+  background-color: #238636; /* Green color for send button */
+  color: #FFFFFF;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 0 6px 6px 0; /* Rounded corners on the right side */
+  cursor: pointer;
+}
+
+.send-button:hover {
+  background-color: #2EA043; /* Slightly lighter green on hover */
+}
+
+
+
+
+
+the return part of contributions section:
+  return (
+    <div className='contributions'>
+      <h1>CONTRIBUTIONS</h1>
+      <div className="contributors-container">
+        {contributors.map((contributor, index) => (
+          <div className="contributor-card" key={index}>
+            <div className="photo-container">
+              <img src={contributor.image} alt={contributor.name} />
+            </div>
+            <h2>{contributor.name}</h2>
+            <p className="designation">{contributor.designation}</p>
+            <p>{contributor.description}</p>
+          </div>
+        ))}
+      </div>
+      <div className="project-collaboration-section">
+        <h2>Project Collaboration</h2>
+        <p>This project is a joint collaboration of four passionate engineers in order to build an integrated code system to simplify code generation.</p>
+      </div>
+      <Footer />
+    </div>
+  );
+}
+
+
+collaboration card code css
+
+/* Styles for the Project Collaboration Card */
+.collaboration-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2); /* Apply shadow for consistency */
+  margin: 40px auto; /* Center the card and add margin for spacing */
+  padding: 20px; /* Padding inside the card */
+  text-align: center; /* Center the text */
+  border-radius: 10px; /* Rounded corners */
+  width: 80%; /* Adjust the width as needed */
+  max-width: 720px; /* Maximum width */
+}

@@ -29,7 +29,7 @@ function Navbar() {
       <nav className='navbar'>
         <div className='navbar-container'>
           <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
-            TRVL
+            CodeBeing
             <i class='fab fa-typo3' />
           </Link>
           <div className='menu-icon' onClick={handleClick}>
@@ -43,20 +43,20 @@ function Navbar() {
             </li>
             <li className='nav-item'>
               <Link
-                to='/services'
+                to='/codeground'
                 className='nav-links'
                 onClick={closeMobileMenu}
               >
-                Services
+                CodeGround
               </Link>
             </li>
             <li className='nav-item'>
               <Link
-                to='/products'
+                to='/contributions'
                 className='nav-links'
                 onClick={closeMobileMenu}
               >
-                Products
+                Contributions
               </Link>
             </li>
 
