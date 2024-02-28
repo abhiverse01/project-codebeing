@@ -1,54 +1,89 @@
+
+
+
+
 import React, { useState } from 'react';
+import { callModel } from '../../api/callModelApi'; // Ensure this path is correct
 import '../../App.css';
-import './CodeGround.css'; // Importing the custom CSS for CodeGround
+import './CodeGround.css';
 
 export default function CodeGround() {
   const [isPaneOpen, setIsPaneOpen] = useState(true);
-  const [message, setMessage] = useState(""); // State to hold the typed message
+  const [message, setMessage] = useState("");
+  const [conversation, setConversation] = useState([]);
+  const [error, setError] = useState(""); // New state for error messages
 
-  // Function to toggle the side pane
-  const togglePane = () => {
-    setIsPaneOpen(!isPaneOpen);
-  };
+  const togglePane = () => setIsPaneOpen(!isPaneOpen);
 
-  // Update message state on input change
-  const handleMessageChange = (event) => {
-    setMessage(event.target.value);
-  };
+  const handleMessageChange = (event) => setMessage(event.target.value);
 
-  // Placeholder function for sending the message
-  const sendMessage = () => {
-    console.log("Sending message:", message);
-    // Here i would typically handle the message sending logic,
-    // such as updating state, sending to an API, etc.
+  const sendMessage = async () => {
+    if (!message.trim()) return; // Prevent sending empty messages
+
+  const userMessage = { sender: 'user', content: message };
+    setConversation((prev) => [...prev, userMessage]); // Add user message to conversation
+
+  
+try {
+    const response = await callModel(message);
+    let modelMessageContent = response.generated_text || "Model did not return a response."; // Ensure this matches the API's response structure
+    const modelMessage = { sender: 'model', content: modelMessageContent };
+    setConversation((prev) => [...prev, modelMessage]); // Add model response to conversation
+    setError(""); // Clear any existing errors
+  } catch (error) {
+    console.error("Error calling the model API:", error);
+    setError("Failed to fetch model prediction. Please try again."); // Update error state
+    const errorMessage = { sender: 'error', content: "Failed to fetch model prediction. Please try again." }; // Use an 'error' sender type
+    setConversation((prev) => [...prev, errorMessage]);
+  }
+
     setMessage(""); // Clear the input field after sending
-  };
+};
+
 
   return (
     <div className="codeground-container">
       <button className="toggle-pane" onClick={togglePane}>
-        {isPaneOpen ? '×' : '≡'} {/* Use symbols here */}
+        {isPaneOpen ? '×' : '≡'}
       </button>
       <div className={`history-pane ${isPaneOpen ? 'open' : ''}`}>
-        <div className="history-logo">{isPaneOpen ? 'Recents / History' : 'H'}</div>
-        {/* Expanded history content goes here */}
+        {/* Ensure content is displayed */}
+        <div className="history-logo">Recents / History</div>
+        {/* Display error message if any */}
+        {error && <p className="error-message">{error}</p>}
       </div>
       <div className="chat-interface">
+
         <div className="messages-container">
-          <p>What do you wish to build today!</p>
-          {/* Chat messages will be dynamically added here */}
+          {conversation.map((msg, index) => {
+            let messageClass = '';
+            if (msg.sender === 'user') messageClass = 'user-message';
+            else if (msg.sender === 'model') messageClass = 'model-message';
+            else if (msg.sender === 'error') messageClass = 'error-message'; // Style differently for error messages
+
+            return (
+              <p key={index} className={messageClass}>
+                <div className={`message ${messageClass}`}>
+                  {msg.content}
+                </div>
+              </p>
+            );
+          })}
         </div>
-        <div className="input-container"> {/* Add this wrapper for input and button */}
-          <input
-            type="text"
-            placeholder="Enter Your Prompt..."
-            className="chat-input"
-            value={message} // Controlled component
-            onChange={handleMessageChange}
-          />
-          <button className="send-button" onClick={sendMessage}>Send</button> {/* Send button */}
+
+
+
+
+
+        <div className="input-container">
+          <input type="text" placeholder="Enter Your Prompt..." className="chat-input" value={message} onChange={handleMessageChange} />
+          <button className="send-button" onClick={sendMessage}>Send</button>
         </div>
+        
+
+
       </div>
     </div>
   );
 }
+

@@ -90,6 +90,7 @@
   padding: 10px;
   background-color: #0D1117;
   border-radius: 10px;
+  max-height: 70vh;
 }
 
 .input-container {
@@ -120,3 +121,42 @@
 .send-button:hover {
   background-color: #2EA043; /* Slightly lighter green on hover */
 }
+
+
+/* Common styles for all message types */
+.message {
+  padding: 10px 15px;
+  margin: 5px 0;
+  border-radius: 20px;
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+
+.user-message {
+  text-align: left;
+  /* Additional styles for user messages */
+}
+
+
+
+.model-message {
+  text-align: left;
+  /* Additional styles for model messages */
+}
+
+
+
+
+.error-message {
+  color: red;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #ffcccc;
+  border-radius: 5px;
+}
+
+
+
+
+
