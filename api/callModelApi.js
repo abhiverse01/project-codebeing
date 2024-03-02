@@ -1,6 +1,6 @@
 
 // callmodelapi.js
-const MODEL_API_URL = "https://api-inference.huggingface.co/models/google/gemma-2b";
+const MODEL_API_URL = "";
 
 export const callModel = async (inputText) => {
   const data = {

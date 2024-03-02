@@ -135,6 +135,7 @@
 
 .user-message {
   text-align: left;
+
   /* Additional styles for user messages */
 }
 
@@ -142,6 +143,8 @@
 
 .model-message {
   text-align: left;
+  /*color: darkblue;*/
+  /*font-weight: bold;*/
   /* Additional styles for model messages */
 }
 

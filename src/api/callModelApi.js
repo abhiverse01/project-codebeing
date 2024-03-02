@@ -1,6 +1,6 @@
 
 // callmodelapi.js
-const MODEL_API_URL = "https://api-inference.huggingface.co/models/google/gemma-2b";
+const MODEL_API_URL = "https://api-inference.huggingface.co/models/bigcode/starcoderbase";
 
 export const callModel = async (inputText) => {
   const data = {
@@ -11,7 +11,7 @@ export const callModel = async (inputText) => {
     const response = await fetch(MODEL_API_URL, {
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer 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',
+        'Authorization': 'Bearer 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',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
