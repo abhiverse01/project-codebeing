@@ -1,0 +1,31 @@
+{
+  "name": "CodeBeing — AI Developer Platform",
+  "short_name": "CodeBeing",
+  "description": "Think, explore, learn, and build with AI.",
+  "start_url": "https://codebeing.vercel.app/",
+  "scope": "https://codebeing.vercel.app/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#6c6ef7",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/logo192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logo512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

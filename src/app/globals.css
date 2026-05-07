@@ -1,0 +1,833 @@
+/* PHASE7: Complete design system rebuild — 30+ CSS variables, utility classes, typography, motion, mobile rules */
+/* PHASE7: Light mode is default per Phase 5 spec */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-serif: var(--font-serif);
+
+  /* CodeBeing palette — Phase 7 design system using CSS custom properties */
+  --color-bg-base: var(--bg-base);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-hover: var(--bg-hover);
+  --color-bg-overlay: var(--bg-overlay);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-border-hover: var(--border-hover);
+  --color-border-focus: var(--border-focus);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-on-dark: var(--text-on-dark);
+  --color-text-inverse: var(--text-inverse);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-muted: var(--accent-muted);
+  --color-accent-glow: var(--accent-glow);
+  --color-success: var(--success);
+  --color-success-muted: var(--success-muted);
+  --color-warning: var(--warning);
+  --color-warning-muted: var(--warning-muted);
+  --color-error: var(--error);
+  --color-error-muted: var(--error-muted);
+  --color-info: var(--info);
+  --color-info-muted: var(--info-muted);
+
+  /* Standard shadcn tokens mapped to our palette */
+  --color-card: var(--color-bg-surface);
+  --color-card-foreground: var(--color-text-primary);
+  --color-popover: var(--color-bg-elevated);
+  --color-popover-foreground: var(--color-text-primary);
+  --color-primary: var(--color-accent);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--color-bg-elevated);
+  --color-secondary-foreground: var(--color-text-primary);
+  --color-muted: var(--color-bg-elevated);
+  --color-muted-foreground: var(--color-text-secondary);
+  --color-accent-fg: var(--color-bg-hover);
+  --color-accent-foreground: var(--color-text-primary);
+  --color-destructive: var(--color-error);
+  --color-input: var(--border);
+  --color-ring: var(--color-accent);
+
+  --radius-sm: var(--radius-sm-val);
+  --radius-md: var(--radius-md-val);
+  --radius-lg: var(--radius-lg-val);
+  --radius-xl: var(--radius-xl-val);
+
+  /* Chart colors */
+  --color-chart-1: var(--accent);
+  --color-chart-2: #8b5cf6;
+  --color-chart-3: var(--success);
+  --color-chart-4: var(--warning);
+  --color-chart-5: var(--error);
+
+  --color-sidebar-ring: var(--color-accent);
+  --color-sidebar-border: var(--color-border);
+  --color-sidebar-accent-foreground: var(--color-text-primary);
+  --color-sidebar-accent: var(--color-bg-elevated);
+  --color-sidebar-primary-foreground: #ffffff;
+  --color-sidebar-primary: var(--color-accent);
+  --color-sidebar-foreground: var(--color-text-primary);
+  --color-sidebar: var(--bg-sidebar);
+}
+
+/* ── Dark mode (default) ── */
+/* PHASE7: Switched to light-first; .dark class overrides for dark mode */
+:root {
+  /* Type scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+  --text-3xl: 2.75rem;
+  --text-4xl: 3.75rem;
+  --text-hero-mobile: 2.5rem;
+
+  /* Line heights */
+  --leading-body: 1.7;
+  --leading-ui: 1.2;
+  --leading-heading: 1.1;
+  --leading-code: 1.65;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.04);
+  --shadow-glow: 0 0 24px var(--accent-glow);
+
+  /* Radius */
+  --radius-sm-val: 6px;
+  --radius-md-val: 10px;
+  --radius-lg-val: 16px;
+  --radius-xl-val: 24px;
+  --radius-full: 9999px;
+
+  /* Spacing rhythm */
+  --space-section: 5rem;
+  --space-section-mobile: 3rem;
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.4,0,0.2,1);
+  --ease-spring: cubic-bezier(0.34,1.56,0.64,1);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 350ms;
+
+  /* Navbar */
+  --navbar-height: 56px;
+
+  /* Scrollbar */
+  --scrollbar-thumb: rgba(0,0,0,0.15);
+  --scrollbar-thumb-hover: rgba(0,0,0,0.25);
+
+  /* Phased radius for shadcn compat */
+  --radius: 0.625rem;
+}
+
+/* ── Light mode ── */
+/* PHASE7: Light is default — :root has light values, .dark overrides */
+:root {
+  --background: #fafafa;
+  --foreground: #111118;
+
+  /* Backgrounds */
+  --bg-base: #fafafa;
+  --bg-surface: #f4f4f6;
+  --bg-elevated: #eeeef2;
+  --bg-hover: #e8e8ed;
+  --bg-overlay: rgba(0,0,0,0.35);
+  --bg-code: #1e1e2e;
+  --bg-terminal: #13131a;
+  --bg-sidebar: #f4f4f6;
+
+  /* Text */
+  --text-primary: #111118;
+  --text-secondary: #5c5c72;
+  --text-tertiary: #9898b0;
+  --text-on-dark: #f0f0f5;
+  --text-inverse: #f8f8fc;
+
+  /* Borders */
+  --border: rgba(0,0,0,0.07);
+  --border-strong: rgba(0,0,0,0.13);
+  --border-hover: rgba(0,0,0,0.15);
+  --border-focus: var(--accent);
+
+  /* Accent system */
+  --accent: #5b5ef7;
+  --accent-hover: #4a4de8;
+  --accent-muted: rgba(91,94,247,0.12);
+  --accent-glow: rgba(91,94,247,0.2);
+
+  /* Semantic */
+  --success: #16a34a;
+  --success-muted: rgba(22,163,74,0.1);
+  --warning: #d97706;
+  --warning-muted: rgba(217,119,6,0.1);
+  --error: #dc2626;
+  --error-muted: rgba(220,38,38,0.1);
+  --info: #2563eb;
+  --info-muted: rgba(37,99,235,0.1);
+
+  /* Glass */
+  --glass-bg: rgba(255,255,255,0.7);
+  --glass-border: rgba(0,0,0,0.07);
+
+  /* Ticker fade */
+  --ticker-fade: #fafafa;
+
+  /* Bar default for algorithm lab canvas */
+  --bar-default: #e8e8ed;
+
+  /* Select arrow */
+  --select-arrow: rgba(92,92,114,0.6);
+
+  /* Inline border */
+  --inline-border: rgba(0,0,0,0.07);
+
+  /* CTA banner shimmer (white overlays on accent background — works in both themes) */
+  --cta-shimmer: rgba(255,255,255,0.1);
+  --cta-shimmer-subtle: rgba(255,255,255,0.08);
+}
+
+/* ── Dark mode overrides ── */
+.dark {
+  --background: #0a0a10;
+  --foreground: #eeeef5;
+
+  /* Backgrounds */
+  --bg-base: #0a0a10;
+  --bg-surface: #101018;
+  --bg-elevated: #18182a;
+  --bg-hover: #20202e;
+  --bg-overlay: rgba(0,0,0,0.6);
+  --bg-code: #1e1e2e;
+  --bg-terminal: #13131a;
+  --bg-sidebar: #08080d;
+
+  /* Text */
+  --text-primary: #eeeef5;
+  --text-secondary: #8888a8;
+  --text-tertiary: #55556e;
+  --text-on-dark: #f0f0f5;
+  --text-inverse: #f8f8fc;
+
+  /* Borders */
+  --border: rgba(255,255,255,0.06);
+  --border-strong: rgba(255,255,255,0.12);
+  --border-hover: rgba(255,255,255,0.15);
+  --border-focus: var(--accent);
+
+  /* Accent system */
+  --accent: #7577f8;
+  --accent-hover: #8587fa;
+  --accent-muted: rgba(117,119,248,0.15);
+  --accent-glow: rgba(117,119,248,0.25);
+
+  /* Semantic */
+  --success: #34d399;
+  --success-muted: rgba(52,211,153,0.1);
+  --warning: #fbbf24;
+  --warning-muted: rgba(251,191,36,0.1);
+  --error: #f87171;
+  --error-muted: rgba(248,113,113,0.1);
+  --info: #60a5fa;
+  --info-muted: rgba(96,165,250,0.1);
+
+  /* Glass */
+  --glass-bg: rgba(16,16,24,0.8);
+  --glass-border: rgba(255,255,255,0.06);
+
+  /* Shadows for dark mode */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.35);
+  --shadow-lg: 0 12px 32px rgba(0,0,0,0.4);
+
+  /* Ticker fade */
+  --ticker-fade: #0a0a10;
+
+  /* Bar default */
+  --bar-default: #18182a;
+
+  /* Select arrow */
+  --select-arrow: rgba(136,136,168,0.6);
+
+  /* Scrollbar */
+  --scrollbar-thumb: rgba(255,255,255,0.1);
+  --scrollbar-thumb-hover: rgba(255,255,255,0.2);
+
+  /* Inline border */
+  --inline-border: rgba(255,255,255,0.06);
+}
+
+/* ── Base layer ── */
+/* BUG FIX: Removed `* { @apply border-border outline-ring/50; }` — in Tailwind v4 this generated
+   outline-style + outline-width on EVERY element, creating an invisible outline matrix that
+   completely blocked scroll on desktop and mobile. The `border-border` also added border-color
+   to every element, which is unnecessary since elements without border-width don't show borders.
+   If border/outline colors are needed, they should be applied explicitly, not globally via *. */
+@layer base {
+  body {
+    @apply bg-bg-base text-text-primary antialiased;
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+    font-size: var(--text-sm);
+    line-height: var(--leading-body);
+    letter-spacing: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  ::selection {
+    background: var(--accent);
+    color: #fff;
+  }
+}
+
+/* GODMODE FIX #Issue6: Smooth resize transitions for key layout elements.
+   When the browser is slowly resized, elements with discrete responsive breakpoints (e.g., grid-cols-1
+   → grid-cols-2 at 640px) cause sudden visual jumps. Adding a 150ms transition on grid-template-columns
+   and flex properties smooths these jumps, making the resize feel fluid and professional.
+   Scope is narrow (only .bento-grid and nav items) to avoid performance overhead on all elements. */
+.bento-grid {
+  transition: grid-template-columns 150ms var(--ease-out);
+}
+nav [role="list"] > li {
+  transition: opacity 100ms var(--ease-out);
+}
+
+/* ── Custom Scrollbar ── */
+/* BUG FIX: Scroll was frozen because `* { scrollbar-width: thin }` applied to `html` element,
+   creating an implicit scroll context that conflicts with `overflow-x: clip` on the same
+   element. The browser treated `html` as a scroll container and then `overflow-x: clip`
+   froze the vertical scroll axis. Fix: apply scrollbar styles to body and specific elements
+   only, NOT to html. And change overflow-x from `clip` on html to `hidden` on body.
+   `overflow-x: hidden` on body does NOT cause the Chrome scroll-freeze bug (only on html). */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
+body, div, textarea, pre, [role="dialog"], [role="listbox"] {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
+/* ── Typography ── */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  line-height: var(--leading-heading);
+}
+
+/* Prose surfaces */
+.prose { max-width: 68ch; }
+
+/* Code blocks — always dark background */
+code, pre { font-family: var(--font-mono), monospace; font-size: 13.5px; line-height: var(--leading-code); }
+
+/* Labels */
+.label { font-size: var(--text-xs); letter-spacing: 0.04em; text-transform: uppercase; }
+
+/* PHASE7: Hero heading clamp */
+.hero-heading { font-size: clamp(2.5rem, 5vw, var(--text-4xl)); }
+
+/* ── PHASE7: Utility Classes ── */
+
+/* Glass Card */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg-val);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--duration-base) var(--ease-out),
+              border-color var(--duration-base) var(--ease-out);
+}
+.glass-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--border-strong);
+}
+
+/* PHASE7: Glass Card Flat — no border-radius, for navbar and full-width bars */
+/* GODMODE FIX: Stronger backdrop (opacity 0.92 light / 0.88 dark), deeper blur (20px),
+   explicit border-bottom only (no shorthand + override hack), saturated colors. */
+.glass-card-flat {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(200%);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
+  border: none;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: var(--shadow-sm), 0 1px 0 var(--border);
+  transition: box-shadow var(--duration-base) var(--ease-out),
+              border-color var(--duration-base) var(--ease-out),
+              background-color var(--duration-base) var(--ease-out);
+}
+
+/* Text Gradient */
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+}
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Glow Accent */
+.glow-accent {
+  box-shadow: 0 0 0 1px var(--accent-muted), var(--shadow-glow);
+}
+
+/* PHASE7: Component layer — utilities in @layer utilities will override these,
+   allowing per-instance Tailwind customization (e.g., py-2.5 on a btn-primary element). */
+@layer components {
+/* PHASE7: btn-primary */
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-md-val);
+  font-weight: 500;
+  font-size: var(--text-sm);
+  padding: 0.5rem 1.25rem;
+  transition: background var(--duration-fast) var(--ease-out),
+              transform var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+  box-shadow: 0 1px 3px var(--accent-glow);
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-primary:hover { background: var(--accent-hover); box-shadow: var(--shadow-glow); }
+.btn-primary:active { transform: scale(0.97); }
+
+/* PHASE7: btn-ghost */
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md-val);
+  font-weight: 500;
+  font-size: var(--text-sm);
+  padding: 0.5rem 1.25rem;
+  transition: all var(--duration-fast) var(--ease-out);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-ghost:hover { background: var(--bg-hover); color: var(--text-primary); border-color: var(--border-strong); }
+.btn-ghost:active { transform: scale(0.97); }
+
+/* Button press */
+.btn-press {
+  transition: transform 80ms cubic-bezier(0.4,0,0.2,1), background-color 150ms;
+}
+.btn-press:active {
+  transform: scale(0.97);
+}
+} /* end @layer components */
+
+/* PHASE7: input-base */
+.input-base {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md-val);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  padding: 0.625rem 0.875rem;
+  transition: border-color var(--duration-fast) var(--ease-out),
+              box-shadow var(--duration-fast) var(--ease-out);
+  outline: none;
+}
+.input-base:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-muted);
+}
+.input-base::placeholder { color: var(--text-tertiary); }
+
+/* PHASE7: Skeleton shimmer */
+.skeleton {
+  background: linear-gradient(90deg,
+    var(--bg-elevated) 0%,
+    var(--bg-hover) 50%,
+    var(--bg-elevated) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease infinite;
+  border-radius: var(--radius-md-val);
+}
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* PHASE7: Streaming cursor — pure CSS animation */
+.streaming-cursor::after {
+  content: '\25CB';
+  color: var(--accent);
+  animation: blink 600ms step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* PHASE7: Focus visible for accessibility — buttons, links, and interactive controls only.
+   Text inputs (input, textarea, select, contenteditable) are EXCLUDED because:
+   1. The blinking cursor already indicates focus — a ring is redundant visual noise.
+   2. Programmatic .focus() calls (auto-focus after generation, palette open, etc.)
+      previously caused a visible ring flash that looked like a bug. The old fix used a
+      focus-soft class with timeout removal, but this was fundamentally flawed: removing
+      the class while the element retains focus caused the ring to reappear after 150ms.
+   3. Users find highlighted input boxes on open distracting — they already know the input
+      is active from the cursor.
+   4. The codeground's input-wrapper-focused class still provides a subtle border glow
+      for manual user focus, giving visual feedback where it matters. */
+:focus-visible:not(input):not(textarea):not(select):not([contenteditable]) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm-val);
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* ── Animations ── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeSlideDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-4px); opacity: 1; }
+}
+@keyframes cursorBlink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marquee-reverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+.animate-fade-up { animation: fadeSlideUp 0.32s cubic-bezier(0.4,0,0.2,1) both; }
+.animate-fade-down { animation: fadeSlideDown 0.32s cubic-bezier(0.4,0,0.2,1) both; }
+.animate-scale-in { animation: scaleIn 0.32s cubic-bezier(0.4,0,0.2,1) both; }
+.animate-fade-in { animation: fadeIn 0.24s ease-out both; }
+.animate-shake { animation: shake 0.4s ease-in-out; }
+
+.typing-dot {
+  animation: typingBounce 1.2s ease-in-out infinite;
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin: 0 2px;
+}
+.typing-dot:nth-child(2) { animation-delay: 0.15s; }
+.typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+.animate-marquee { animation: marquee 40s linear infinite; }
+.animate-marquee-reverse { animation: marquee-reverse 40s linear infinite; }
+
+/* ── Interactive transitions ── */
+.interactive {
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.interactive:hover {
+  background: var(--bg-hover);
+}
+.interactive:active {
+  transform: scale(0.97);
+}
+
+/* Mobile touch feedback */
+@media (hover: none) {
+  .interactive:active,
+  button:active,
+  a:active {
+    opacity: 0.7;
+    transform: scale(0.97);
+  }
+}
+
+/* GODMODE FIX #Issue3: Input wrapper focus indicator — shows accent border only when the user
+   manually focuses the input (click/tap/Tab). Programmatic focus (auto-focus after generation)
+   does NOT trigger this class because it uses focus-soft suppression. Replaces the old
+   focus-within:border-accent/50 which fired on ALL focus events including programmatic ones. */
+.input-wrapper-focused {
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent) !important;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
+/* GODMODE FIX #Issue4: Soft focus — used only as a coordination flag between JS and the
+   codeground's onFocus handler. When programmatic focus fires, focus-soft is present on the
+   element, and the onFocus handler checks for it to skip adding input-wrapper-focused.
+   The :focus-visible ring issue is solved at the source (scoped :focus-visible to exclude inputs).
+   This CSS rule is retained as a safety net — if focus-soft is on an element, no ring at all. */
+.focus-soft:focus,
+.focus-soft:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Copy success animation */
+@keyframes copyPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+.copy-success {
+  animation: copyPulse 300ms ease;
+}
+
+/* Focus ring (legacy compat) */
+.focus-ring:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* PHASE7: Instrument Serif / Fraunces for editorial moments */
+.font-serif-accent {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+}
+
+/* ── Line Clamp Utilities ── */
+.line-clamp-1 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1; }
+.line-clamp-2 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.line-clamp-3 { overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+
+/* PHASE7: Logo sharpness for small rendered sizes */
+.logo-sharp {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
+/* ── PHASE7: Mobile rules ── */
+/* BUG FIX: Moved overflow-x control from html to body. `overflow-x: hidden` on `html`
+   triggers a Chrome/Safari bug that freezes vertical scrolling. On `body`, it's safe.
+   Also, `overflow-x: clip` on `html` combined with `scrollbar-width` on `*` also froze scroll.
+   The `body { overflow-x: hidden }` prevents horizontal page scroll without breaking vertical. */
+body { overflow-x: hidden; }
+pre, code { max-width: 100%; overflow-x: auto; }
+table { display: block; overflow-x: auto; }
+img { max-width: 100%; height: auto; }
+
+/* MOB2: Touch targets — 44px minimum */
+button, a, [role="button"], input[type="checkbox"], input[type="radio"], select {
+  min-height: 44px;
+}
+
+/* MOB4: Safe area insets for notched devices */
+.mobile-safe-bottom { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
+
+/* Mobile heading overrides */
+@media (max-width: 640px) {
+  h1:not(.hero-heading) { font-size: var(--text-xl) !important; }
+  h2 { font-size: var(--text-lg) !important; }
+}
+
+/* PHASE7: iOS zoom fix — scoped to full-text inputs */
+@media screen and (max-width: 640px) {
+  textarea,
+  input[type="text"]:not([size]),
+  input[type="search"],
+  input[type="email"],
+  input[type="password"],
+  input[type="url"],
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* ── PHASE7: Smooth page transitions ── */
+/* BUG FIX: Removed padding-top: var(--banner-height) — the offline banner uses fixed
+   positioning and should NOT push main content down. The banner overlays content instead. */
+main.page-enter {
+  animation: pageEnter 0.2s ease-out;
+}
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Toast/sonner improvements ── */
+[data-sonner-toast] {
+  font-family: var(--font-sans), system-ui, sans-serif !important;
+}
+
+/* BUG FIX: Removed `overscroll-behavior: none` from html — this was preventing scroll from
+   working entirely on mobile devices and some desktop browsers. It killed the browser's
+   native scroll handling, making the page feel 'frozen'. Overscroll bounce is harmless
+   for a web app and should be left to the browser's default behavior. */
+
+/* PHASE7: Set --scrollbar-width CSS variable for scroll-lock padding compensation */
+/* This runs once on load to measure the actual scrollbar width */
+@supports (overflow: hidden) {
+  :root {
+    --scrollbar-width: calc(100vw - 100%);
+  }
+}
+
+/* ── Textarea resize handle ── */
+textarea { resize: vertical; }
+textarea:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ── Link hover ── */
+a { text-decoration: none; }
+a:hover { text-decoration: none; }
+
+/* ── Code blocks — always dark inset styling ── */
+.code-inset, pre:not(.animate-shake) {
+  background: var(--bg-code) !important;
+  color: var(--text-on-dark) !important;
+  border-radius: 0.75rem;
+  border: 1px solid var(--inline-border);
+}
+
+/* ── Badge/base pulse for status indicators ── */
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+.status-pulse { animation: statusPulse 2s ease-in-out infinite; }
+
+/* ── PHASE7: Mobile slide-up panel ── */
+@media (max-width: 1023px) {
+  .mobile-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    max-height: 60vh;
+    z-index: 40;
+    border-radius: 12px 12px 0 0;
+    overflow-y: auto;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ── Select dropdown consistent styling ── */
+select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='var(--select-arrow)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 28px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* ── PHASE7: Mesh gradient floating circles — 3 phases at 8/10/12s ── */
+@keyframes meshFloat1 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(0, -20px); }
+}
+@keyframes meshFloat2 {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(0, 20px); }
+}
+@keyframes meshFloat3 {
+  0%, 100% { transform: translate(0, 10px); }
+  50% { transform: translate(0, -20px); }
+}
+
+/* PHASE7: Ticker pause on hover */
+.ticker-row:hover {
+  animation-play-state: paused;
+}
+
+/* PHASE7: Navbar base — elevated surface with subtle backdrop, always visually distinct from page.
+   Uses var(--bg-surface) at 95% opacity so the navbar reads as a distinct layer above
+   the page content. A light backdrop-filter (8px) provides depth without GPU cost.
+   The transition to glass-card-flat on scroll is seamless because both states share
+   backdrop-blur — only the blur intensity increases (8px → 20px). */
+.navbar-base {
+  background: color-mix(in srgb, var(--bg-surface) 95%, transparent);
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  border-bottom: 1px solid var(--border-strong);
+  box-shadow: 0 1px 0 var(--border);
+  transition: background-color var(--duration-base) var(--ease-out),
+              border-color var(--duration-base) var(--ease-out),
+              box-shadow var(--duration-base) var(--ease-out),
+              backdrop-filter var(--duration-base) var(--ease-out);
+}
+
+/* ── PHASE7: Theme transition — smooth color change when toggling ── */
+/* Normally transitions on html/body are off for perf. This class enables them briefly
+   (350ms) so theme switches feel smooth rather than jarring. Applied by navbar toggleTheme(). */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: background-color 350ms var(--ease-out),
+              color 350ms var(--ease-out),
+              border-color 350ms var(--ease-out),
+              box-shadow 350ms var(--ease-out) !important;
+}
+
+/* ── PHASE7: Scroll lock for mobile menu ── */
+/* Toggled by navbar when mobile dropdown is open. `overflow: hidden` on html is safe here
+   because it's temporary (removed on menu close). The Chrome scroll-freeze bug was caused
+   by PERMANENT `overflow-x: clip` on html, not by temporary `overflow: hidden`. */
+html.scroll-locked {
+  overflow: hidden;
+}
+html.scroll-locked body {
+  /* Preserve overflow-x hidden from globals while locked */
+  overflow: hidden;
+  /* Prevent layout shift from scrollbar disappearing */
+  padding-right: var(--scrollbar-width, 0px);
+}
+
+/* ── PHASE7: Reduced motion enforcement ── */
+/* M4: Kill all animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
