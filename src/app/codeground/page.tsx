@@ -466,9 +466,15 @@ function CodeGroundContent() {
           title: t.title,
         })));
         const bestMatch = snippetResults?.results[0];
+        // PHASE8 FIX: surface the real error/code from the API instead of a
+        // hardcoded "no API key configured" message that stays visible even
+        // once a key is actually configured but some other failure occurs.
+        const apiReason = data?.error
+          ? `${data.error}${data.code ? ` (code: ${data.code})` : ""}`
+          : `Request failed (status ${res.status})`;
         const offlineCode = bestMatch
           ? `// Offline mode — closest match from template library\n// Match: "${bestMatch.snippet.title}" (score: ${(bestMatch.score * 100).toFixed(0)}%)${snippetResults.results.length > 1 ? `\n// Runners-up: ${snippetResults.results.slice(1).map(r => `"${r.snippet.title}" (${(r.score * 100).toFixed(0)}%)`).join(", ")}` : ""}\n\n${bestMatch.snippet.code}`
-          : `// Offline mode — no API key configured\n// Set HF_API_KEY to enable AI generation\n\n// In the meantime, here's a starter template:\nfunction hello() {\n  console.log("Hello from CodeBeing!");\n}\n\nhello();`;
+          : `// Offline mode — AI request failed\n// Reason: ${apiReason}\n\n// In the meantime, here's a starter template:\nfunction hello() {\n  console.log("Hello from CodeBeing!");\n}\n\nhello();`;
         setUsingOffline(true);
         setMessages((prev) => [...prev, { role: "assistant", content: offlineCode }]);
         // GODMODE FIX: Track the detected/requested language, not hardcoded "javascript"
