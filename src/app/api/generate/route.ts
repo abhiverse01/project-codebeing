@@ -14,7 +14,10 @@ import { NextRequest, NextResponse } from "next/server";
  */
 const BASE_URL = process.env.CHAT_API_BASE_URL || "https://router.huggingface.co/v1/chat/completions";
 const API_KEY = process.env.HF_API_KEY || "";
-const MODEL_ID = process.env.HF_MODEL_ID || "Qwen/Qwen2.5-7B-Instruct-1M:cheapest";
+// Pinned to an explicit provider (":groq") rather than ":cheapest" — some
+// models resolve ":cheapest" to a provider (e.g. hf-inference) that doesn't
+// actually support the /v1/chat/completions shape and returns a 400.
+const MODEL_ID = process.env.HF_MODEL_ID || "openai/gpt-oss-20b:groq";
 
 const SYSTEM_PROMPT =
   "You are CodeBeing, a concise, helpful programming assistant embedded in a code playground. " +
@@ -120,7 +123,20 @@ export async function POST(req: NextRequest) {
               { error: "Model not available via Inference Providers. Check HF_MODEL_ID.", code: "MODEL_UNAVAILABLE" },
               { status: 502 }
             );
-          return NextResponse.json({ error: `API error (${res.status}). Try again.`, code: "API" }, { status: 502 });
+          // Surface the real upstream message (e.g. "Not allowed to request
+          // v1/chat/completions for provider hf-inference") instead of a
+          // generic one, so failures are diagnosable from the UI directly.
+          let upstreamDetail = "";
+          try {
+            const errBody = await res.text();
+            upstreamDetail = errBody.slice(0, 300);
+          } catch {
+            /* ignore */
+          }
+          return NextResponse.json(
+            { error: `API error (${res.status})${upstreamDetail ? `: ${upstreamDetail}` : ""}`, code: "API" },
+            { status: 502 }
+          );
         }
 
         const data = await res.json();
