@@ -1,27 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const MODEL_URL = process.env.HF_MODEL_URL || "https://api-inference.huggingface.co/models/bigcode/starcoderbase";
+/**
+ * Chat backend for CodeBeing's chat interface.
+ *
+ * Uses Hugging Face's OpenAI-compatible "Inference Providers" router
+ * (https://router.huggingface.co/v1/chat/completions), NOT the old
+ * api-inference.huggingface.co serverless endpoint — that endpoint no
+ * longer serves arbitrary/custom models for free.
+ *
+ * Swappable later: point BASE_URL / API_KEY at Groq, Together, or your
+ * own HF Space running a fine-tuned model — the request/response shape
+ * (OpenAI chat-completions) stays the same either way.
+ */
+const BASE_URL = process.env.CHAT_API_BASE_URL || "https://router.huggingface.co/v1/chat/completions";
 const API_KEY = process.env.HF_API_KEY || "";
+const MODEL_ID = process.env.HF_MODEL_ID || "Qwen/Qwen2.5-7B-Instruct-1M:cheapest";
+
+const SYSTEM_PROMPT =
+  "You are CodeBeing, a concise, helpful programming assistant embedded in a code playground. " +
+  "When the user asks for code, respond with a single fenced code block in the correct language. " +
+  "Keep explanations short unless asked for more detail.";
+
 const MAX_RETRIES = 2;
 const RETRY_MS = 1500;
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-/* ── In-memory rate limiter ── */
+/* ── In-memory rate limiter (unchanged) ── */
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
 const RATE_LIMIT_MAX_REQUESTS = 10;
 
-// Clean up expired entries every 60 seconds
 const cleanupInterval = setInterval(() => {
   const now = Date.now();
   for (const [key, entry] of rateLimitMap) {
-    if (now >= entry.resetAt) {
-      rateLimitMap.delete(key);
-    }
+    if (now >= entry.resetAt) rateLimitMap.delete(key);
   }
 }, 60_000);
-
-// Ensure the interval doesn't prevent the process from exiting in tests
 if (typeof cleanupInterval === "object" && "unref" in cleanupInterval) {
   (cleanupInterval as unknown as NodeJS.Timeout).unref();
 }
@@ -42,19 +56,15 @@ function checkRateLimit(ip: string): { allowed: boolean; retryAfter: number } {
     rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
     return { allowed: true, retryAfter: 0 };
   }
-
   if (entry.count >= RATE_LIMIT_MAX_REQUESTS) {
-    const retryAfter = Math.ceil((entry.resetAt - now) / 1000);
-    return { allowed: false, retryAfter };
+    return { allowed: false, retryAfter: Math.ceil((entry.resetAt - now) / 1000) };
   }
-
   entry.count++;
   return { allowed: true, retryAfter: 0 };
 }
 
 export async function POST(req: NextRequest) {
   try {
-    // Rate limit check
     const ip = getClientIp(req);
     const { allowed, retryAfter } = checkRateLimit(ip);
 
@@ -63,10 +73,7 @@ export async function POST(req: NextRequest) {
         { error: "Rate limited", retryAfter, code: "RATE_LIMITED" },
         {
           status: 429,
-          headers: {
-            "Retry-After": String(retryAfter),
-            "X-RateLimit-Reset": String(retryAfter),
-          },
+          headers: { "Retry-After": String(retryAfter), "X-RateLimit-Reset": String(retryAfter) },
         }
       );
     }
@@ -74,33 +81,58 @@ export async function POST(req: NextRequest) {
     if (!API_KEY) {
       return NextResponse.json({ error: "API key not configured. Set HF_API_KEY.", code: "NO_KEY" }, { status: 503 });
     }
+
     const { input } = await req.json();
     if (!input?.trim()) return NextResponse.json({ error: "Input cannot be empty.", code: "EMPTY" }, { status: 400 });
     if (input.length > 2000) return NextResponse.json({ error: "Input too long (max 2000 chars).", code: "TOO_LONG" }, { status: 400 });
 
+    const body = JSON.stringify({
+      model: MODEL_ID,
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user", content: input.trim() },
+      ],
+      max_tokens: 700,
+      temperature: 0.7,
+      stream: false,
+    });
+
     for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
       try {
-        const res = await fetch(MODEL_URL, {
+        const res = await fetch(BASE_URL, {
           method: "POST",
           headers: { Authorization: `Bearer ${API_KEY}`, "Content-Type": "application/json" },
-          body: JSON.stringify({ inputs: input.trim() }),
+          body,
         });
+
         if (!res.ok) {
-          if (res.status === 503 && attempt < MAX_RETRIES) { await sleep(RETRY_MS * (attempt + 1)); continue; }
+          // 503/502 = upstream provider briefly unavailable — worth a retry
+          if ((res.status === 503 || res.status === 502) && attempt < MAX_RETRIES) {
+            await sleep(RETRY_MS * (attempt + 1));
+            continue;
+          }
           if (res.status === 401 || res.status === 403)
             return NextResponse.json({ error: "Invalid API key. Update HF_API_KEY.", code: "AUTH" }, { status: 502 });
           if (res.status === 429)
-            return NextResponse.json({ error: "Rate limited. Try again in a moment.", code: "RATE" }, { status: 429 });
+            return NextResponse.json({ error: "Upstream rate limited. Try again in a moment.", code: "RATE" }, { status: 429 });
+          if (res.status === 404)
+            return NextResponse.json(
+              { error: "Model not available via Inference Providers. Check HF_MODEL_ID.", code: "MODEL_UNAVAILABLE" },
+              { status: 502 }
+            );
           return NextResponse.json({ error: `API error (${res.status}). Try again.`, code: "API" }, { status: 502 });
         }
+
         const data = await res.json();
-        const text = Array.isArray(data) && data[0]?.generated_text
-          ? data[0].generated_text
-          : data?.generated_text;
+        const text: string | undefined = data?.choices?.[0]?.message?.content;
+
         if (text) return NextResponse.json({ generated_text: text });
         return NextResponse.json({ error: "Unexpected response. Try a different prompt.", code: "FORMAT" }, { status: 502 });
-      } catch (e) {
-        if (attempt < MAX_RETRIES) { await sleep(RETRY_MS * (attempt + 1)); continue; }
+      } catch {
+        if (attempt < MAX_RETRIES) {
+          await sleep(RETRY_MS * (attempt + 1));
+          continue;
+        }
         break;
       }
     }
